@@ -1,7 +1,7 @@
 Ecommerce Project
 
 Team Members:
-Sam Gupta
+Sam Gupta \
 Aalok Zimmerman
 
 User stories:
