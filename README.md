@@ -1,4 +1,4 @@
-Ecommerce Project
+Ecommerce Project - Team 1
 
 Team Members: \
 Sam Gupta \
