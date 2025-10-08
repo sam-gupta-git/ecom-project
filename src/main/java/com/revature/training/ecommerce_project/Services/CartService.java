@@ -2,33 +2,33 @@ package com.revature.training.ecommerce_project.Services;
 
 public class CartService {
 
-    public void addToCart(int itemID, int quantity) {
+    public void addToCart(String userID, int itemID, int quantity) {
         
     }
 
-    public void removeFromCart(int itemID) {
+    public void removeFromCart(String userID, int itemID) {
         
     }
 
-    public void updateItemQuantity(int itemID, int newQuantity) {
+    public void updateItemQuantity(String userID, int itemID, int newQuantity) {
         
     }
 
-    public void viewCart() {
+    public void viewCart(String userID) {
         
     }
 
-    public void clearCart() {
+    public void clearCart(String userID) {
         
     }
 
     // Total without taxes, shipping, or discounts
-    public void getSubtotal() {
+    public void getSubtotal(String userID) {
         
     }
 
     // Total with taxes, shipping, and discounts
-    public void getTotalPrice() {
+    public void getTotalPrice(String userID) {
         
     }
 
@@ -36,19 +36,19 @@ public class CartService {
         
     }
 
-    public void isEmpty() {
+    public void isEmpty(String userID) {
         
     }
 
-    public void applyDiscountCode(String code) {
+    public void applyDiscountCode(String userID, String code) {
         
     }
 
-    public void removeDiscountCode() {
+    public void removeDiscountCode(String userID) {
         
     }
 
-    public void getCartSummary() {
+    public void getCartSummary(String userID) {
         
     }
 
