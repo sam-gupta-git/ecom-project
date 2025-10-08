@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './HomePage.css';
 import ProductCard from './ProductCard';
 
@@ -12,12 +12,26 @@ const sampleProducts = [
 ];
 
 export default function HomePage() {
+  const [cart, setCart] = useState([]);
+  const [toast, setToast] = useState(null);
+
+  function addToCart(product) {
+    setCart((c) => [...c, product]);
+    setToast(`${product.name} added to cart`);
+    // clear toast after 1.6s
+    setTimeout(() => setToast(null), 1600);
+  }
+
+  function clearCart() {
+    setCart([]);
+  }
+
   return (
     <div className="hp-root">
       <nav className="hp-nav">
         <div className="hp-brand">ShopEasy</div>
         <div className="hp-actions">
-          <button className="hp-cart">Cart (0)</button>
+          <button className="hp-cart">Cart ({cart.length})</button>
         </div>
       </nav>
 
@@ -30,9 +44,25 @@ export default function HomePage() {
         <h2>Featured Products</h2>
         <div className="hp-grid">
           {sampleProducts.map((p) => (
-            <ProductCard key={p.id} product={p} />
+            <ProductCard key={p.id} product={p} onAdd={() => addToCart(p)} />
           ))}
         </div>
+
+        {cart.length > 0 && (
+          <div className="hp-cart-preview">
+            <strong>Cart ({cart.length})</strong>
+            <ul>
++              {cart.map((it, idx) => (
+                <li key={idx}>{it.name} — ${it.price.toFixed(2)}</li>
+              ))}
+            </ul>
+            <div style={{ marginTop: 8 }}>
+              <button onClick={clearCart} className="pc-add">Clear cart</button>
+            </div>
+          </div>
+        )}
+
+        {toast && <div className="hp-toast">{toast}</div>}
       </main>
 
       <footer className="hp-footer">© {new Date().getFullYear()} ShopEasy — Built for demo</footer>
