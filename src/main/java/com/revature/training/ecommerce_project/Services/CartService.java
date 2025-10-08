@@ -21,4 +21,36 @@ public class CartService {
     public void clearCart() {
         
     }
+
+    // Total without taxes, shipping, or discounts
+    public void getSubtotal() {
+        
+    }
+
+    // Total with taxes, shipping, and discounts
+    public void getTotalPrice() {
+        
+    }
+
+    public void hasItem(int itemID) {
+        
+    }
+
+    public void isEmpty() {
+        
+    }
+
+    public void applyDiscountCode(String code) {
+        
+    }
+
+    public void removeDiscountCode() {
+        
+    }
+
+    public void getCartSummary() {
+        
+    }
+
+
 }
