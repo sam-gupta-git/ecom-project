@@ -1,8 +1,10 @@
 package com.revature.training.ecommerce_project.services;
 
+import com.revature.training.ecommerce_project.model.User;
+
 public class UserService {
 
-    public void registerUser(String userData) {
+    public void registerUser(User user) {
         
     }
 
