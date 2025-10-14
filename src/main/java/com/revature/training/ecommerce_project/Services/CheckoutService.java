@@ -1,4 +1,4 @@
-package com.revature.training.ecommerce_project.services;
+package com.revature.training.ecommerce_project.Services;
 
 public class CheckoutService {
     

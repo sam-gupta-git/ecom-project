@@ -1,4 +1,4 @@
-package com.revature.training.ecommerce_project.services;
+package com.revature.training.ecommerce_project.Services;
 
 public class CartService {
 
@@ -44,7 +44,7 @@ public class CartService {
         
     }
 
-    public void removeDiscountCode(String userID) {
+    public void removeDiscountCode(String userID, String code) {
         
     }
 

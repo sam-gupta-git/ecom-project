@@ -1,32 +1,40 @@
 package com.revature.training.ecommerce_project.Controllers;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.revature.training.ecommerce_project.Services.CartService;
+
+@RestController
 public class CartController {
-    
-    public void addToCart(String req, String res) {
-        
+    private final CartService cartService;
+
+    public CartController(CartService cartService) {
+        this.cartService = cartService;
+    }
+    public void addToCart(String userID, int itemID, int quantity) {
+        cartService.addToCart(userID, itemID, quantity);
     }
 
-    public void removeFromCart(String req, String res) {
-        
+    public void removeFromCart(String userID, int itemID) {
+        cartService.removeFromCart(userID, itemID);
     }
 
-    public void updateItemQuantity(String req, String res) {
-        
+    public void updateItemQuantity(String userID, int itemID, int newQuantity) {
+        cartService.updateItemQuantity(userID, itemID, newQuantity);
     }
 
-    public void viewCart(String req, String res) {
-        
+    public void viewCart(String userID) {
+        cartService.viewCart(userID);
     }
 
-    public void clearCart(String req, String res) {
-        
+    public void clearCart(String userID) {
+        cartService.clearCart(userID);
     }
 
-    public void applyDiscountCode(String req, String res) {
-        
+    public void applyDiscountCode(String userID, String code) {
+        cartService.applyDiscountCode(userID, code);
     }
 
-    public void removeDiscountCode(String req, String res) {
-        
+    public void removeDiscountCode(String userID, String code) {
+        cartService.removeDiscountCode(userID, code);
     }
 }
