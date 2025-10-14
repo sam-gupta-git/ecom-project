@@ -1,4 +1,4 @@
-package com.revature.training.ecommerce_project.Controllers;
+package com.revature.training.ecommerce_project.controllers;
 
 public class CartController {
     

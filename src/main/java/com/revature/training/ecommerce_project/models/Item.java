@@ -1,4 +1,4 @@
-package com.revature.training.ecommerce_project.model;
+package com.revature.training.ecommerce_project.models;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

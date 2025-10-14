@@ -1,15 +1,17 @@
 package com.revature.training.ecommerce_project.services;
 
-import com.revature.training.ecommerce_project.model.User;
+import com.revature.training.ecommerce_project.models.User;
+import com.revature.training.ecommerce_project.repository.UserRepository;
 
 public class UserService {
+    private UserRepository UserRepository;
 
     public void registerUser(User user) {
         
     }
 
-    public void loginUder(String username, String password) {
-        
+    public User loginUser(String username, String password) {
+        return UserRepository.findByUsernameAndPassword(username, password);
     }
 
     public void logoutUser(int userId) {

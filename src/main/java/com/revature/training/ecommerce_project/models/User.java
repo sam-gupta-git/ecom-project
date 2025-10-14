@@ -1,4 +1,4 @@
-package com.revature.training.ecommerce_project.model;
+package com.revature.training.ecommerce_project.models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
