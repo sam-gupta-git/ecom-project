@@ -1,7 +1,7 @@
 package com.revature.training.ecommerce_project.services;
 
 import com.revature.training.ecommerce_project.models.User;
-import com.revature.training.ecommerce_project.repository.UserRepository;
+import com.revature.training.ecommerce_project.repositories.UserRepository;
 
 public class UserService {
     private UserRepository UserRepository;

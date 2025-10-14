@@ -1,4 +1,4 @@
-package com.revature.training.ecommerce_project.repository;
+package com.revature.training.ecommerce_project.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
