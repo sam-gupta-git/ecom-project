@@ -6,28 +6,39 @@ import com.revature.training.ecommerce_project.repositories.UserRepository;
 public class UserService {
     private UserRepository UserRepository;
 
-    public void registerUser(User user) {
-        
+    public void registerUser(String username, String password, String email) {
+        User user = new User(username, password, email);
+        UserRepository.save(user);
     }
 
     public User loginUser(String username, String password) {
         return UserRepository.findByUsernameAndPassword(username, password);
     }
 
-    public void logoutUser(int userId) {
-        
+    public User logoutUser() {
+        return null;
     }
 
-    public void getUserProfile(int userId) {
-        
+    public User getUserProfile(int userId) {
+        return UserRepository.findById((long) userId).orElse(null);
     }
 
-    public void updateUserProfile(int userId, String updatedData) {
-        
+    public User updateUserProfile(int userId, String username, String email) {
+        User user = UserRepository.findById((long) userId).orElse(null);
+        if (user != null) {
+            user.setUsername(username);
+            user.setEmail(email);
+            return UserRepository.save(user);
+        }
+        return null;
     }
 
-    public void changePassword(int userId, String oldPassword, String newPassword) {
-        
+    public void changePassword(int userId, String newPassword) {
+        User user = UserRepository.findById((long) userId).orElse(null);
+        if (user != null) {
+            user.setPassword(newPassword);
+            UserRepository.save(user);
+        }
     }
 
     public void generatePasswordResetToken(String email) {
