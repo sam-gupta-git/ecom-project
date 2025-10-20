@@ -174,7 +174,7 @@ public class CartService {
         userDiscounts.remove(userID);
     }
 
-    // Additional utility methods
+    // Additional utility methods - possibly move to checkoutservice
     
     public int getTotalItemCount(String userID) {
         Integer count = cartRepository.getTotalItemCount(userID);
