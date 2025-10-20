@@ -34,7 +34,7 @@ public class CartController {
         cartService.applyDiscountCode(userID, code);
     }
 
-    public void removeDiscountCode(String userID, String code) {
-        cartService.removeDiscountCode(userID, code);
+    public void removeDiscountCode(String userID) {
+        cartService.removeDiscountCode(userID);
     }
 }
