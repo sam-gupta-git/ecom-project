@@ -2,6 +2,8 @@ package com.revature.training.ecommerce_project.controllers;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,23 +23,30 @@ public class UserController {
     }
 
     @GetMapping("users/login")
-    public User loginUser(String username, String password) {
+    public User loginUser(@RequestParam String username, @RequestParam String password) {
         return userService.loginUser(username, password);
     }
 
-    public void logoutUser(String req, String res) {
-        
+    @GetMapping("users/logout")
+    public void logoutUser() {
+        userService.logoutUser();
+        // Might want to change this to return an empty session token? 
     }
 
-    public void getUserProfile(String req, String res) {
-        
+    @GetMapping("users/profile")
+    public User getUserProfile(@RequestParam long userId) {
+        return userService.getUserProfile(userId);
     }
 
-    public void updateUserProfile(String req, String res) {
-        
+    @PostMapping("users/profile")
+    public User updateUserProfile(@RequestBody User user) {
+        return userService.updateUserProfile(user.getId(), user.getUsername(), user.getEmail());
     }
 
-    public void changePassword(String req, String res) {
+    @PostMapping("users/change-password")
+    public ResponseEntity<String> changePassword(@RequestParam long userId, @RequestParam String newPassword) {
+        userService.changePassword(userId, newPassword);
+        return ResponseEntity.ok("Password changed successfully");
         
     }
 

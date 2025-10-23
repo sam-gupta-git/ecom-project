@@ -19,11 +19,11 @@ public class UserService {
         return null;
     }
 
-    public User getUserProfile(int userId) {
+    public User getUserProfile(long userId) {
         return UserRepository.findById((long) userId).orElse(null);
     }
 
-    public User updateUserProfile(int userId, String username, String email) {
+    public User updateUserProfile(long userId, String username, String email) {
         User user = UserRepository.findById((long) userId).orElse(null);
         if (user != null) {
             user.setUsername(username);
@@ -33,7 +33,8 @@ public class UserService {
         return null;
     }
 
-    public void changePassword(int userId, String newPassword) {
+    public void changePassword(long userId, String newPassword) {
+        // Implement exception handling for correct response entity
         User user = UserRepository.findById((long) userId).orElse(null);
         if (user != null) {
             user.setPassword(newPassword);
