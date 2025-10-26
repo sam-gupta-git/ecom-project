@@ -2,14 +2,18 @@ package com.revature.training.ecommerce_project.controllers;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.training.ecommerce_project.services.CartService;
+import com.revature.training.ecommerce_project.services.CheckoutService;
 
 @RestController
 public class CartController {
     private final CartService cartService;
+    private final CheckoutService checkoutService;
 
-    public CartController(CartService cartService) {
+    public CartController(CartService cartService, CheckoutService checkoutService) {
         this.cartService = cartService;
+        this.checkoutService = checkoutService;
     }
+    
     public void addToCart(String userID, int itemID, int quantity) {
         cartService.addToCart(userID, itemID, quantity);
     }
@@ -31,10 +35,10 @@ public class CartController {
     }
 
     public void applyDiscountCode(String userID, String code) {
-        cartService.applyDiscountCode(userID, code);
+        checkoutService.applyDiscountCode(userID, code);
     }
 
     public void removeDiscountCode(String userID) {
-        cartService.removeDiscountCode(userID);
+        checkoutService.removeDiscountCode(userID);
     }
 }

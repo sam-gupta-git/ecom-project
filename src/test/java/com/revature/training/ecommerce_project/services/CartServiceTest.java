@@ -102,29 +102,6 @@ public class CartServiceTest {
     }
 
     @Test
-    void testApplyDiscountCode_Valid() {
-        // Arrange
-        when(cartRepository.existsByUserId("user123")).thenReturn(true);
-
-        // Act
-        cartService.applyDiscountCode("user123", "SAVE10");
-
-        // Assert
-        assertNotNull(cartService.getAppliedDiscountCode("user123"));
-    }
-
-    @Test
-    void testApplyDiscountCode_Invalid() {
-        // Arrange
-        when(cartRepository.existsByUserId("user123")).thenReturn(true);
-
-        // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> {
-            cartService.applyDiscountCode("user123", "INVALID");
-        });
-    }
-
-    @Test
     void testIsEmpty() {
         // Arrange
         when(cartRepository.existsByUserId("user123")).thenReturn(false);
@@ -134,5 +111,17 @@ public class CartServiceTest {
 
         // Assert
         assertTrue(isEmpty);
+    }
+
+    @Test
+    void testGetTotalItemCount() {
+        // Arrange
+        when(cartRepository.getTotalItemCount("user123")).thenReturn(5);
+
+        // Act
+        int count = cartService.getTotalItemCount("user123");
+
+        // Assert
+        assertEquals(5, count);
     }
 }
