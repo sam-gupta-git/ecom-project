@@ -1,28 +1,52 @@
 package com.revature.training.ecommerce_project.controllers;
 
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.revature.training.ecommerce_project.services.UserService;
+import com.revature.training.ecommerce_project.models.User;
+
+@RestController
+@RequestMapping("/api")
 public class UserController {
 
-    public void registerUser(String req, String res) {
-        
+    private UserService userService;
+
+    @PostMapping("/users/register")
+    public void registerUser(@RequestParam String username, @RequestParam String password, @RequestParam String email) {
+        userService.registerUser(username, password, email);
     }
 
-    public void loginUser(String req, String res) {
-        
+    @GetMapping("users/login")
+    public User loginUser(@RequestParam String username, @RequestParam String password) {
+        return userService.loginUser(username, password);
     }
 
-    public void logoutUser(String req, String res) {
-        
+    @GetMapping("users/logout")
+    public void logoutUser() {
+        userService.logoutUser();
+        // Might want to change this to return an empty session token? 
     }
 
-    public void getUserProfile(String req, String res) {
-        
+    @GetMapping("users/profile")
+    public User getUserProfile(@RequestParam long userId) {
+        return userService.getUserProfile(userId);
     }
 
-    public void updateUserProfile(String req, String res) {
-        
+    @PostMapping("users/profile")
+    public User updateUserProfile(@RequestBody User user) {
+        return userService.updateUserProfile(user.getId(), user.getUsername(), user.getEmail());
     }
 
-    public void changePassword(String req, String res) {
+    @PostMapping("users/change-password")
+    public ResponseEntity<String> changePassword(@RequestParam long userId, @RequestParam String newPassword) {
+        userService.changePassword(userId, newPassword);
+        return ResponseEntity.ok("Password changed successfully");
         
     }
 
@@ -30,23 +54,9 @@ public class UserController {
         
     }
 
-    public void resetPassword(String req, String res) {
-        
-    }
-
-    public void getUserOrders(String req, String res) {
-        
-    }
-
-    public void getSavedAddresses(String req, String res) {
-        
-    }
-
-    public void addorUpdateAddress(String req, String res) {
-        
-    }
-
-    public void deleteAddress(String req, String res) {
+    @PostMapping("users/reset-password?token={token}&email={email}&newPassword={newPassword}")
+    public void resetPassword(String token, String email, String newPassword) {
+        userService.resetPassword(token, email, newPassword);
         
     }
 
