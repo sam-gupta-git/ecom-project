@@ -1,8 +1,6 @@
 package com.revature.training.ecommerce_project.controllers;
-<<<<<<< HEAD
-=======
+
 import org.springframework.web.bind.annotation.RestController;
->>>>>>> main
 
 import com.revature.training.ecommerce_project.services.CartService;
 import com.revature.training.ecommerce_project.services.CheckoutService;
