@@ -1,10 +1,22 @@
 package com.revature.training.ecommerce_project.services;
 
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.revature.training.ecommerce_project.models.User;
 import com.revature.training.ecommerce_project.repositories.UserRepository;
+import com.revature.training.ecommerce_project.Utilities.SecurityConfig;
 
+@Service
 public class UserService {
+
+    @Autowired
     private UserRepository UserRepository;
+    
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public void registerUser(String username, String password, String email) {
         User user = new User(username, password, email);
@@ -42,11 +54,11 @@ public class UserService {
         }
     }
 
-    public void generatePasswordResetToken(String email) {
-        
+    public String generatePasswordResetToken(String email) {
+        return UUID.randomUUID().toString();
     }
 
-    public void resetPassword(String token, String newPassword) {
+    public void resetPassword(String token, String email, String newPassword) {
         
     }
 

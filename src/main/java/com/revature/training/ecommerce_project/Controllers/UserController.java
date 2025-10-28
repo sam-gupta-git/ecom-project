@@ -54,7 +54,9 @@ public class UserController {
         
     }
 
-    public void resetPassword(String req, String res) {
+    @PostMapping("users/reset-password?token={token}&email={email}&newPassword={newPassword}")
+    public void resetPassword(String token, String email, String newPassword) {
+        userService.resetPassword(token, email, newPassword);
         
     }
 
