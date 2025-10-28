@@ -17,7 +17,7 @@ public class UserController {
 
     private UserService userService;
 
-    @PostMapping("/users")
+    @PostMapping("/users/register")
     public void registerUser(@RequestParam String username, @RequestParam String password, @RequestParam String email) {
         userService.registerUser(username, password, email);
     }
@@ -57,22 +57,6 @@ public class UserController {
     @PostMapping("users/reset-password?token={token}&email={email}&newPassword={newPassword}")
     public void resetPassword(String token, String email, String newPassword) {
         userService.resetPassword(token, email, newPassword);
-        
-    }
-
-    public void getUserOrders(String req, String res) {
-        
-    }
-
-    public void getSavedAddresses(String req, String res) {
-        
-    }
-
-    public void addorUpdateAddress(String req, String res) {
-        
-    }
-
-    public void deleteAddress(String req, String res) {
         
     }
 

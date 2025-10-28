@@ -2,29 +2,36 @@ package com.revature.training.ecommerce_project.services;
 
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.revature.training.ecommerce_project.models.User;
 import com.revature.training.ecommerce_project.repositories.UserRepository;
-import com.revature.training.ecommerce_project.Utilities.SecurityConfig;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Service
 public class UserService {
 
-    @Autowired
-    private UserRepository UserRepository;
-    
-    @Autowired
+    private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
 
-    public void registerUser(String username, String password, String email) {
-        User user = new User(username, password, email);
-        UserRepository.save(user);
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    public User registerUser(String username, String password, String email) {
+        String encodedPassword = passwordEncoder.encode(password);
+
+        User user = new User(username, encodedPassword, email);
+        return userRepository.save(user);
     }
 
     public User loginUser(String username, String password) {
-        return UserRepository.findByUsernameAndPassword(username, password);
+        if (validatePassword(password, userRepository.findByUsername(username).getPassword())) {
+            return userRepository.findByUsername(username);
+        } else {
+            return null;
+        }
     }
 
     public User logoutUser() {
@@ -32,26 +39,26 @@ public class UserService {
     }
 
     public User getUserProfile(long userId) {
-        return UserRepository.findById((long) userId).orElse(null);
+        return userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
     public User updateUserProfile(long userId, String username, String email) {
-        User user = UserRepository.findById((long) userId).orElse(null);
-        if (user != null) {
-            user.setUsername(username);
-            user.setEmail(email);
-            return UserRepository.save(user);
-        }
-        return null;
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+        user.setUsername(username);
+        user.setEmail(email);
+        return userRepository.save(user);
     }
 
-    public void changePassword(long userId, String newPassword) {
+    public void changePassword(long userId, String newRawPassword) {
         // Implement exception handling for correct response entity
-        User user = UserRepository.findById((long) userId).orElse(null);
-        if (user != null) {
-            user.setPassword(newPassword);
-            UserRepository.save(user);
-        }
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+        String encodedPassword = passwordEncoder.encode(newRawPassword);
+        user.setPassword(encodedPassword);
+
+        userRepository.save(user);
     }
 
     public String generatePasswordResetToken(String email) {
@@ -66,15 +73,11 @@ public class UserService {
         
     }
 
-    public void getSavedAddresses(int userId) {
-        
-    }
-
-    public void deleteAddress(int userId, int addressId) {
-        
-    }
-
     public void getWishlist(int userId) {
         
+    }
+
+    public boolean validatePassword(String rawPassword, String encodedPassword) {
+        return passwordEncoder.matches(rawPassword, encodedPassword);
     }
 }
