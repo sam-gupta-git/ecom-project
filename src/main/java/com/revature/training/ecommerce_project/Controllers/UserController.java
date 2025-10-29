@@ -12,38 +12,38 @@ import com.revature.training.ecommerce_project.services.UserService;
 import com.revature.training.ecommerce_project.models.User;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/users")
 public class UserController {
 
     private UserService userService;
 
-    @PostMapping("/users/register")
+    @PostMapping("/register")
     public void registerUser(@RequestParam String username, @RequestParam String password, @RequestParam String email) {
         userService.registerUser(username, password, email);
     }
 
-    @GetMapping("users/login")
+    @GetMapping("/login")
     public User loginUser(@RequestParam String username, @RequestParam String password) {
         return userService.loginUser(username, password);
     }
 
-    @GetMapping("users/logout")
+    @GetMapping("/logout")
     public void logoutUser() {
         userService.logoutUser();
         // Might want to change this to return an empty session token? 
     }
 
-    @GetMapping("users/profile")
+    @GetMapping("/profile")
     public User getUserProfile(@RequestParam long userId) {
         return userService.getUserProfile(userId);
     }
 
-    @PostMapping("users/profile")
+    @PostMapping("/profile")
     public User updateUserProfile(@RequestBody User user) {
         return userService.updateUserProfile(user.getId(), user.getUsername(), user.getEmail());
     }
 
-    @PostMapping("users/change-password")
+    @PostMapping("/change-password")
     public ResponseEntity<String> changePassword(@RequestParam long userId, @RequestParam String newPassword) {
         userService.changePassword(userId, newPassword);
         return ResponseEntity.ok("Password changed successfully");
@@ -54,7 +54,7 @@ public class UserController {
         
     }
 
-    @PostMapping("users/reset-password?token={token}&email={email}&newPassword={newPassword}")
+    @PostMapping("/reset-password?token={token}&email={email}&newPassword={newPassword}")
     public void resetPassword(String token, String email, String newPassword) {
         userService.resetPassword(token, email, newPassword);
         
