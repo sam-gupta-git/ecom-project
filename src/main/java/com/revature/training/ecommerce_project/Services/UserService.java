@@ -5,7 +5,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import com.revature.training.ecommerce_project.models.User;
-import com.revature.training.ecommerce_project.repositories.UserRepository;
+import com.revature.training.ecommerce_project.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Service
