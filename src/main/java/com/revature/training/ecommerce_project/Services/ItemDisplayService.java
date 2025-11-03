@@ -38,4 +38,12 @@ public class ItemDisplayService {
         return itemRepository.findAllOrderByPriceAsc();
     }
 
+    public List<Item> findItemsSortedByNameAsc () {
+        return itemRepository.findAllOrderByNameAsc();
+    }
+
+    public List<Item> findItemsSortedByNameDesc () {
+        return itemRepository.findAllOrderByNameAsc();
+    }
+
 }

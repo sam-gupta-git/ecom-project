@@ -21,12 +21,23 @@ public class ItemController {
         return itemDisplayService.findAllItems();
     }
 
-    @GetMapping("/items/filtered/{sortBy}")
-    public List<Item> getFilteredItems(@PathVariable String sortBy) {
+    @GetMapping("/items/sorted/price/{sortBy}")
+    public List<Item> getSortedItemsByPrice(@PathVariable String sortBy) {
         if (sortBy.equals("asc")) {
             return itemDisplayService.findItemsSortedByPriceAsc();
         } else if (sortBy.equals("desc")) {
             return itemDisplayService.findItemsSortedByPriceDesc();
+        } else {
+            return null;
+        }
+    }
+
+    @GetMapping("/items/sorted/name/{sortBy}")
+    public List<Item> getSortedItemsByName(@PathVariable String sortBy) {
+        if (sortBy.equals("asc")) {
+            return itemDisplayService.findItemsSortedByNameAsc();
+        } else if (sortBy.equals("desc")) {
+            return itemDisplayService.findItemsSortedByNameDesc();
         } else {
             return null;
         }
