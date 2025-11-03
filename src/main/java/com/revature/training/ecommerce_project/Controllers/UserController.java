@@ -9,13 +9,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.training.ecommerce_project.services.UserService;
-import com.revature.training.ecommerce_project.models.User;
+import com.revature.training.ecommerce_project.model.User;
 
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
 
-    private UserService userService;
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @PostMapping("/register")
     public void registerUser(@RequestParam String username, @RequestParam String password, @RequestParam String email) {

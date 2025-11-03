@@ -31,19 +31,19 @@ public class ItemDisplayService {
     }
 
     public List<Item> findItemsSortedByPriceAsc () {
-        return itemRepository.findAllOrderByPriceAsc();
+        return itemRepository.findAllByOrderByPriceAsc();
     }
 
     public List<Item> findItemsSortedByPriceDesc () {
-        return itemRepository.findAllOrderByPriceAsc();
+        return itemRepository.findAllByOrderByPriceDesc();
     }
 
     public List<Item> findItemsSortedByNameAsc () {
-        return itemRepository.findAllOrderByNameAsc();
+        return itemRepository.findAllByOrderByNameAsc();
     }
 
     public List<Item> findItemsSortedByNameDesc () {
-        return itemRepository.findAllOrderByNameAsc();
+        return itemRepository.findAllByOrderByNameDesc();
     }
 
 }
