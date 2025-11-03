@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.training.ecommerce_project.services.UserService;
-import com.revature.training.ecommerce_project.models.User;
+import com.revature.training.ecommerce_project.model.User;
 
 @RestController
 @RequestMapping("/api/users")
