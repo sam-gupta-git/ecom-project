@@ -20,7 +20,11 @@ import com.revature.training.ecommerce_project.model.User;
 @RequestMapping("/api/users")
 public class UserController {
 
-    private UserService userService;
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @PostMapping("/register")
     public ResponseEntity <Map <String, Object>> registerUser(
