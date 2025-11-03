@@ -10,24 +10,40 @@ import com.revature.training.ecommerce_project.repository.ItemRepository;
 @Service
 public class ItemDisplayService {
 
-    public ItemRepository itemRepository;
+    private ItemRepository itemRepository;
     private String imageString = "This is an image";
 
-    public Item getProductById(Item item) {
+    public Item findProductById(Item item) {
         return itemRepository.findById(item.getId())
             .orElseThrow(() -> new RuntimeException("Item not found"));
     }
 
-    public List<Item> getAllItems() {
+    public List<Item> findAllItems() {
         return itemRepository.findAll();
     }
 
-    public String getProductImages(Item item) {
+    public String findProductImages(Item item) {
         return imageString;
     }
 
-    public double getProductPricing(Item item) {
+    public double findProductPricing(Item item) {
         return item.getPrice();
+    }
+
+    public List<Item> findItemsSortedByPriceAsc () {
+        return itemRepository.findAllOrderByPriceAsc();
+    }
+
+    public List<Item> findItemsSortedByPriceDesc () {
+        return itemRepository.findAllOrderByPriceAsc();
+    }
+
+    public List<Item> findItemsSortedByNameAsc () {
+        return itemRepository.findAllOrderByNameAsc();
+    }
+
+    public List<Item> findItemsSortedByNameDesc () {
+        return itemRepository.findAllOrderByNameAsc();
     }
 
 }

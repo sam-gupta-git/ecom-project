@@ -2,23 +2,50 @@ package com.revature.training.ecommerce_project.controllers;
 
 import java.util.List;
 
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.revature.training.ecommerce_project.model.Item;
+import com.revature.training.ecommerce_project.services.ItemDisplayService;
 
-@Controller
+@RestController
+@RequestMapping("/api")
 public class ItemController {
 
+    private ItemDisplayService itemDisplayService;
+
+    @GetMapping("/items")
     public List<Item> getAllItems() {
-        return null;
+        return itemDisplayService.findAllItems();
     }
 
-    public List<Item> getFilteredItems() {
-        return null;
+    @GetMapping("/items/sorted/price/{sortBy}")
+    public List<Item> getSortedItemsByPrice(@PathVariable String sortBy) {
+        if (sortBy.equals("asc")) {
+            return itemDisplayService.findItemsSortedByPriceAsc();
+        } else if (sortBy.equals("desc")) {
+            return itemDisplayService.findItemsSortedByPriceDesc();
+        } else {
+            return null;
+        }
     }
 
-    public Item getItem() {
-        return null;
+    @GetMapping("/items/sorted/name/{sortBy}")
+    public List<Item> getSortedItemsByName(@PathVariable String sortBy) {
+        if (sortBy.equals("asc")) {
+            return itemDisplayService.findItemsSortedByNameAsc();
+        } else if (sortBy.equals("desc")) {
+            return itemDisplayService.findItemsSortedByNameDesc();
+        } else {
+            return null;
+        }
+    }
+
+    @GetMapping("/item/{itemId}")
+    public Item getItem(Item item) {
+        return itemDisplayService.findProductById(item);
     }
     
 }
