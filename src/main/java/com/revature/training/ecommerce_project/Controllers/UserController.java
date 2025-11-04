@@ -49,7 +49,7 @@ public class UserController {
         User user = userService.loginUser(loginRequest.getUsername(), loginRequest.getPassword());
 
         Map<String, Object> response = new HashMap<>();
-        response.put("messgae", "User logged-in successfully");
+        response.put("message", "User logged-in successfully");
         response.put("user", user);
         return ResponseEntity.ok(response);
     }
@@ -105,6 +105,25 @@ public class UserController {
         Map<String, String> response = new HashMap<>();
         response.put("message", "Password reset successfully");
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/check/{username}")
+    public ResponseEntity<Map<String, Object>> checkUser(@PathVariable String username) {
+        try {
+            User user = userService.getUserByUsername(username);
+            if (user != null) {
+                Map<String, Object> response = new HashMap<>();
+                response.put("exists", true);
+                response.put("userId", user.getId());
+                response.put("username", user.getUsername());
+                response.put("email", user.getEmail());
+                return ResponseEntity.ok(response);
+            } else {
+                return ResponseEntity.ok(Map.of("exists", false));
+            }
+        } catch (Exception e) {
+            return ResponseEntity.ok(Map.of("exists", false, "error", e.getMessage()));
+        }
     }
 
     public void getWishlist(String req, String res) {

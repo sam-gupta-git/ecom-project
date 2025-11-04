@@ -4,9 +4,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.revature.training.ecommerce_project.model.CartItem;
+import com.revature.training.ecommerce_project.model.User;
+import com.revature.training.ecommerce_project.model.OrderHistory;
+import com.revature.training.ecommerce_project.model.Item;
+import com.revature.training.ecommerce_project.repository.UserRepository;
+import com.revature.training.ecommerce_project.repository.OrderHistoryRepository;
+import com.revature.training.ecommerce_project.repository.ItemRepository;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
+import java.time.LocalDateTime;
+import java.math.BigDecimal;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -14,6 +23,15 @@ public class CheckoutService {
     
     @Autowired
     private CartService cartService;
+    
+    @Autowired
+    private UserRepository userRepository;
+    
+    @Autowired
+    private OrderHistoryRepository orderHistoryRepository;
+    
+    @Autowired
+    private ItemRepository itemRepository;
 
     // In-memory discount storage for simplicity (in production, use database)
     private Map<String, Double> userDiscounts = new HashMap<>();
@@ -105,9 +123,54 @@ public class CheckoutService {
         return discountedSubtotal >= 50.0 ? 0.0 : SHIPPING_COST;
     }
 
-    public void finalizeOrder(String userID, int checkoutDataID) {
+    public String finalizeOrder(String userID, int checkoutDataID) {
         validateOrder(userID);
-        // TODO: Create order record, update inventory, clear cart
+        
+        // Get user from database
+        User user = userRepository.findByUsername(userID);
+        if (user == null) {
+            throw new IllegalArgumentException("User not found: " + userID);
+        }
+        
+        // Get cart items
+        List<CartItem> cartItems = cartService.viewCart(userID);
+        if (cartItems.isEmpty()) {
+            throw new IllegalArgumentException("Cart is empty");
+        }
+        
+        // Generate unique order number
+        String orderNumber = "ORD-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+        LocalDateTime orderDate = LocalDateTime.now();
+        BigDecimal orderTotalAmount = BigDecimal.valueOf(calculateTotal(userID));
+        
+        // Move each cart item to order history
+        for (CartItem cartItem : cartItems) {
+            Item item = cartItem.getItem();
+            
+            // Create order history entry for each item
+            OrderHistory orderHistory = new OrderHistory(
+                user,
+                item,
+                orderNumber,
+                orderDate,
+                cartItem.getQuantity(),
+                item.getPrice(),
+                orderTotalAmount
+            );
+            
+            // Save to order history
+            orderHistoryRepository.save(orderHistory);
+            
+            // Update item stock
+            item.setStockQuantity(item.getStockQuantity() - cartItem.getQuantity());
+            itemRepository.save(item);
+        }
+        
+        // Clear the cart after successful order placement
+        cartService.clearCart(userID);
+        
+        // Return the order number
+        return orderNumber;
     }
 
     public void processPayment(String userID, int orderID, int paymentDataID) {

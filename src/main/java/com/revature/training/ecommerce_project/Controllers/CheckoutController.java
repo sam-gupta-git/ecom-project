@@ -37,13 +37,14 @@ public class CheckoutController {
             int checkoutDataID = orderData != null && orderData.containsKey("checkoutDataID") 
                 ? (Integer) orderData.get("checkoutDataID") : 0;
             
-            // Finalize the order
-            checkoutService.finalizeOrder(userId, checkoutDataID);
+            // Finalize the order and get the order number
+            String orderNumber = checkoutService.finalizeOrder(userId, checkoutDataID);
             
             return ResponseEntity.ok(Map.of(
                 "success", true,
                 "message", "Order submitted successfully",
-                "orderId", System.currentTimeMillis() // Temporary order ID
+                "orderNumber", orderNumber,
+                "orderId", orderNumber // Keep for backward compatibility
             ));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));

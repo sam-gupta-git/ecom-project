@@ -15,6 +15,7 @@ import jakarta.persistence.GenerationType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Data
@@ -38,6 +39,7 @@ public class User {
     private String email;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<OrderHistory> orderHistories = new ArrayList<>();
 
     // Additional constructor for creating users without an ID

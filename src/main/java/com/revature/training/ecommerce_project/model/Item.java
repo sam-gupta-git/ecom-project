@@ -27,10 +27,8 @@ public class Item {
     @NotBlank
     private String description;
 
-    @NotBlank
     private double price;
 
-    @NotBlank
     private int stockQuantity;
 
     private String category;
