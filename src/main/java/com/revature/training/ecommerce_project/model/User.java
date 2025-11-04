@@ -1,10 +1,15 @@
 package com.revature.training.ecommerce_project.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import lombok.Data;
@@ -31,6 +36,9 @@ public class User {
 
     @Email(message = "Email is not valid")
     private String email;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<OrderHistory> orderHistories = new ArrayList<>();
 
     // Additional constructor for creating users without an ID
     public User(String username, String password, String email) {
