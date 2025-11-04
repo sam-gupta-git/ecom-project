@@ -10,8 +10,12 @@ import com.revature.training.ecommerce_project.repository.ItemRepository;
 @Service
 public class ItemDisplayService {
 
-    private ItemRepository itemRepository;
+    private final ItemRepository itemRepository;
     private String imageString = "This is an image";
+
+    public ItemDisplayService(ItemRepository itemRepository) {
+        this.itemRepository = itemRepository;
+    }
 
     public Item findProductById(Item item) {
         return itemRepository.findById(item.getId())

@@ -14,7 +14,11 @@ import com.revature.training.ecommerce_project.services.ItemDisplayService;
 @RequestMapping("/api")
 public class ItemController {
 
-    private ItemDisplayService itemDisplayService;
+    private final ItemDisplayService itemDisplayService;
+
+    public ItemController(ItemDisplayService itemDisplayService) {
+        this.itemDisplayService = itemDisplayService;
+    }
 
     @GetMapping("/items")
     public List<Item> getAllItems() {
@@ -43,8 +47,10 @@ public class ItemController {
         }
     }
 
-    @GetMapping("/item/{itemId}")
-    public Item getItem(Item item) {
+    @GetMapping("/items/{itemId}")
+    public Item getItem(@PathVariable Long itemId) {
+        Item item = new Item();
+        item.setId(itemId);
         return itemDisplayService.findProductById(item);
     }
     

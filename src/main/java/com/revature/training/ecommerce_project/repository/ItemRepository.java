@@ -12,6 +12,8 @@ import com.revature.training.ecommerce_project.model.Item;
 @Repository
 public interface ItemRepository extends JpaRepository<Item, Long> {
 
+    List<Item> findAll();
+
     // Filter Items by Price Ceiling
     @Query("SELECT i FROM Item i WHERE i.price <= ?1")
     List<Item> findByCeilingPrice(double price);

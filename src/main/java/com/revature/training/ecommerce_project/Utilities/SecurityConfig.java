@@ -6,6 +6,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -22,11 +23,16 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+            .csrf(csrf -> csrf.disable()) // Completely disable CSRF for REST API
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Stateless sessions for REST API
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/users/register", "api/users/login").permitAll()
+                .requestMatchers("/", "/error", "/favicon.ico").permitAll() // Allow root and error pages
+                .requestMatchers("/api/**").permitAll() // Allow all API endpoints
+                .requestMatchers("/actuator/**").permitAll() // Allow actuator endpoints
                 .anyRequest().authenticated()
             )
-            .csrf(csrf -> csrf.disable());
+            .httpBasic(httpBasic -> httpBasic.disable()) // Disable HTTP Basic auth
+            .formLogin(formLogin -> formLogin.disable()); // Disable form login for REST API
         return http.build();
     }
 }

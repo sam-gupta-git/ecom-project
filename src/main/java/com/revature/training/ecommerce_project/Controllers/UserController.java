@@ -62,7 +62,7 @@ public class UserController {
         // Might want to change this to return an empty session token? 
     }
 
-    @GetMapping("/profile{userId}")
+    @GetMapping("/profile/{userId}")
     public ResponseEntity<User> getUserProfile(@PathVariable long userId) {
         User user = userService.getUserProfile(userId);
 
