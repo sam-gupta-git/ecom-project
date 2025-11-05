@@ -37,4 +37,8 @@ public interface WishlistRepository extends JpaRepository<Wishlist, Long> {
     // Check if item exists in user's wishlist
     @Query("SELECT COUNT(w) > 0 FROM Wishlist w WHERE w.user.id = :userId AND w.item.id = :itemId")
     boolean existsByUserIdAndItemId(@Param("userId") Long userId, @Param("itemId") Long itemId);
+    
+    // Check if item exists in any wishlist
+    @Query("SELECT COUNT(w) > 0 FROM Wishlist w WHERE w.item.id = :itemId")
+    boolean existsByItemId(@Param("itemId") Long itemId);
 }

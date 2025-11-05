@@ -27,4 +27,8 @@ public interface OrderHistoryRepository extends JpaRepository<OrderHistory, Long
     // Get unique order numbers for a user (for order grouping)
     @Query("SELECT DISTINCT oh.orderNumber FROM OrderHistory oh WHERE oh.user.id = :userId ORDER BY oh.orderDate DESC")
     List<String> findDistinctOrderNumbersByUserId(@Param("userId") Long userId);
+    
+    // Check if item exists in any order history
+    @Query("SELECT COUNT(oh) > 0 FROM OrderHistory oh WHERE oh.item.id = :itemId")
+    boolean existsByItemId(@Param("itemId") Long itemId);
 }
