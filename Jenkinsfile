@@ -20,7 +20,7 @@ pipeline {
 
         stage('Fetch Secrets') {
             steps {
-                sh 'aws s3 cp s3://${SECRET_BUCKET}/team1/application.properties revagenda-server/src/main/resources/'
+                sh 'aws s3 cp s3://${SECRET_BUCKET}/team1/application.properties src/main/resources/'
             }
         }
         
