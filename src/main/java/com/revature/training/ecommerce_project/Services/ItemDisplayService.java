@@ -50,4 +50,26 @@ public class ItemDisplayService {
         return itemRepository.findAllByOrderByNameDesc();
     }
 
+    public List<Item> findItemsByCreatedBy(Long userId) {
+        return itemRepository.findByCreatedBy(userId);
+    }
+
+    public Item createItem(Item item) {
+        // Ensure ID is not set (auto-generated)
+        item.setId(0);
+        
+        // Set default image URL if not provided
+        if (item.getImageUrl() == null || item.getImageUrl().trim().isEmpty()) {
+            item.setImageUrl(null); // Will display placeholder in frontend
+        }
+        
+        // Set default category if not provided
+        if (item.getCategory() == null || item.getCategory().trim().isEmpty()) {
+            item.setCategory("general");
+        }
+        
+        // Save and return the created item
+        return itemRepository.save(item);
+    }
+
 }

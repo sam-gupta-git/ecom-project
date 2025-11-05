@@ -28,4 +28,7 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     List<Item> findAllByOrderByNameAsc();
     List<Item> findAllByOrderByNameDesc();
 
+    // Find items created by a specific user
+    List<Item> findByCreatedBy(Long userId);
+
 }
