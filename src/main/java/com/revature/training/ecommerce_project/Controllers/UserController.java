@@ -39,6 +39,7 @@ public class UserController {
         response.put("message", "User registered successfully.");
         response.put("userId", user.getId());
         response.put("username", user.getUsername());
+        response.put("email", user.getEmail());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
