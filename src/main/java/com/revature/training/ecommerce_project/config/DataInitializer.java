@@ -4,9 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import com.revature.training.ecommerce_project.model.User;
-import com.revature.training.ecommerce_project.model.Item;
 import com.revature.training.ecommerce_project.repository.UserRepository;
-import com.revature.training.ecommerce_project.repository.ItemRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Component
@@ -14,9 +12,6 @@ public class DataInitializer implements CommandLineRunner {
 
     @Autowired
     private UserRepository userRepository;
-    
-    @Autowired
-    private ItemRepository itemRepository;
     
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -30,16 +25,7 @@ public class DataInitializer implements CommandLineRunner {
             System.out.println("Created test user: testuser2");
         }
         
-        // Initialize test items if they don't exist
-        if (itemRepository.count() == 0) {
-            Item item1 = new Item("test", "lol", 1.0, 10, "test", "image1.jpg");
-            Item item2 = new Item("Sample Item 2", "Description 2", 15.99, 20, "Electronics", "image2.jpg");
-            Item item3 = new Item("Sample Item 3", "Description 3", 25.50, 15, "Books", "image3.jpg");
-            
-            itemRepository.save(item1);
-            itemRepository.save(item2);
-            itemRepository.save(item3);
-            System.out.println("Created test items");
-        }
+        // Sample item initialization removed - no longer auto-creating items
+        System.out.println("DataInitializer completed - no sample items created");
     }
 }
