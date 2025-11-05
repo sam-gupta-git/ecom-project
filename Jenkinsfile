@@ -14,7 +14,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 git branch: 'main',
-                    url: 'https://github.com/sam-gupta-git/ecom-project/tree/main'
+                    url: 'https://github.com/revature-sam/ecom-project'
             }
         }
 
