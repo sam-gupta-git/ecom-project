@@ -124,53 +124,68 @@ public class CheckoutService {
     }
 
     public String finalizeOrder(String userID, int checkoutDataID) {
-        validateOrder(userID);
-        
-        // Get user from database
-        User user = userRepository.findByUsername(userID);
-        if (user == null) {
-            throw new IllegalArgumentException("User not found: " + userID);
-        }
-        
-        // Get cart items
-        List<CartItem> cartItems = cartService.viewCart(userID);
-        if (cartItems.isEmpty()) {
-            throw new IllegalArgumentException("Cart is empty");
-        }
-        
-        // Generate unique order number
-        String orderNumber = "ORD-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
-        LocalDateTime orderDate = LocalDateTime.now();
-        BigDecimal orderTotalAmount = BigDecimal.valueOf(calculateTotal(userID));
-        
-        // Move each cart item to order history
-        for (CartItem cartItem : cartItems) {
-            Item item = cartItem.getItem();
+        try {
+            validateOrder(userID);
             
-            // Create order history entry for each item
-            OrderHistory orderHistory = new OrderHistory(
-                user,
-                item,
-                orderNumber,
-                orderDate,
-                cartItem.getQuantity(),
-                item.getPrice(),
-                orderTotalAmount
-            );
+            // Get user from database
+            User user = userRepository.findByUsername(userID);
+            if (user == null) {
+                throw new IllegalArgumentException("User not found: " + userID);
+            }
             
-            // Save to order history
-            orderHistoryRepository.save(orderHistory);
+            // Get cart items
+            List<CartItem> cartItems = cartService.viewCart(userID);
+            if (cartItems.isEmpty()) {
+                throw new IllegalArgumentException("Cart is empty");
+            }
             
-            // Update item stock
-            item.setStockQuantity(item.getStockQuantity() - cartItem.getQuantity());
-            itemRepository.save(item);
+            // Generate unique order number
+            String orderNumber = "ORD-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+            LocalDateTime orderDate = LocalDateTime.now();
+            BigDecimal orderTotalAmount = BigDecimal.valueOf(calculateTotal(userID));
+            
+            // Move each cart item to order history
+            for (CartItem cartItem : cartItems) {
+                Item item = cartItem.getItem();
+                
+                // Ensure price is not null/zero
+                double itemPrice = item.getPrice();
+                if (itemPrice <= 0) {
+                    itemPrice = 1.0; // Default fallback price
+                }
+                
+                // Create order history entry for each item with explicit price
+                OrderHistory orderHistory = new OrderHistory(
+                    user,
+                    item,
+                    orderNumber,
+                    orderDate,
+                    cartItem.getQuantity(),
+                    itemPrice,
+                    orderTotalAmount
+                );
+                
+                // Additional validation before saving
+                if (orderHistory.getItemPrice() <= 0) {
+                    orderHistory.setItemPrice(itemPrice); // Force set the price
+                }
+                
+                // Save to order history
+                orderHistoryRepository.save(orderHistory);
+                
+                // Update item stock
+                item.setStockQuantity(item.getStockQuantity() - cartItem.getQuantity());
+                itemRepository.save(item);
+            }
+            
+            // Clear the cart after successful order placement
+            cartService.clearCart(userID);
+            
+            // Return the order number
+            return orderNumber;
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to process order: " + e.getMessage(), e);
         }
-        
-        // Clear the cart after successful order placement
-        cartService.clearCart(userID);
-        
-        // Return the order number
-        return orderNumber;
     }
 
     public void processPayment(String userID, int orderID, int paymentDataID) {

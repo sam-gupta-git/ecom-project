@@ -49,7 +49,7 @@ public class CheckoutController {
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(Map.of("error", "Failed to submit order"));
+            return ResponseEntity.internalServerError().body(Map.of("error", "Failed to submit order", "details", e.getMessage()));
         }
     }
 

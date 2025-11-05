@@ -11,6 +11,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Transient;
+import jakarta.persistence.Column;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
@@ -38,12 +40,37 @@ public class OrderHistory {
     @JoinColumn(name = "item_id", nullable = false)
     private Item item;
     
+    @Column(name = "order_number")
     private String orderNumber;
+    
+    @Column(name = "order_date")
     private LocalDateTime orderDate;
+    
+    @Column(name = "quantity", nullable = false)
     private int quantity;
-    private double itemPrice; // Price at time of purchase
-    private double totalItemPrice; // itemPrice * quantity
+    
+    @Column(name = "item_price", nullable = false, columnDefinition = "DOUBLE DEFAULT 0.0")
+    private double itemPrice = 0.0; // Price at time of purchase
+    
+    @Transient
+    private double totalItemPrice; // itemPrice * quantity (calculated field)
+    
+    @Column(name = "order_total_amount")
     private BigDecimal orderTotalAmount; // Total amount for the entire order (for grouping)
+    
+    // Getter for totalItemPrice (calculated)
+    public double getTotalItemPrice() {
+        return itemPrice * quantity;
+    }
+    
+    // Explicit getter and setter for itemPrice to ensure they exist
+    public double getItemPrice() {
+        return itemPrice;
+    }
+    
+    public void setItemPrice(double itemPrice) {
+        this.itemPrice = itemPrice;
+    }
     
     // Constructor for creating order history entries
     public OrderHistory(User user, Item item, String orderNumber, LocalDateTime orderDate, 
@@ -54,7 +81,6 @@ public class OrderHistory {
         this.orderDate = orderDate;
         this.quantity = quantity;
         this.itemPrice = itemPrice;
-        this.totalItemPrice = itemPrice * quantity;
         this.orderTotalAmount = orderTotalAmount;
     }
 }
