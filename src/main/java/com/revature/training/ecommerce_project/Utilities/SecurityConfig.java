@@ -11,7 +11,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.http.HttpMethod;
 import java.util.Arrays;
 
 @Configuration
@@ -28,29 +27,16 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        
-        // Allow specific origins
         configuration.setAllowedOriginPatterns(Arrays.asList(
             "http://localhost:3000", 
             "http://127.0.0.1:3000",
             "http://trng2309-1.s3-website.us-east-2.amazonaws.com",
             "https://trng2309-1.s3-website.us-east-2.amazonaws.com"
         ));
-        
-        // Allow specific HTTP methods including OPTIONS for preflight
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD"));
-        
-        // Allow all headers (including custom headers)
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
-        
-        // Allow credentials (cookies, authorization headers)
         configuration.setAllowCredentials(true);
-        
-        // Cache preflight response for 1 hour
         configuration.setMaxAge(3600L);
-        
-        // Expose headers that client can access
-        configuration.setExposedHeaders(Arrays.asList("Authorization", "Content-Type", "X-Requested-With"));
         
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
@@ -65,7 +51,6 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable()) // Completely disable CSRF for REST API
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Stateless sessions for REST API
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Allow all OPTIONS requests for CORS preflight
                 .requestMatchers("/", "/error", "/favicon.ico").permitAll() // Allow root and error pages
                 .requestMatchers("/api/**").permitAll() // Allow all API endpoints
                 .requestMatchers("/actuator/**").permitAll() // Allow actuator endpoints
