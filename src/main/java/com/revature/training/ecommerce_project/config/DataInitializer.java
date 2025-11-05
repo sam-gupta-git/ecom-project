@@ -20,15 +20,9 @@ public class DataInitializer implements CommandLineRunner {
     public void run(String... args) throws Exception {
         // Initialize test users if they don't exist
         if (userRepository.findByUsername("testuser2") == null) {
-            User testUser2 = new User("testuser2", passwordEncoder.encode("password"), "testuser2@gmail.com");
-            userRepository.save(testUser2);
-            System.out.println("Created test user: testuser2");
-        }
-        
-        if (userRepository.findByUsername("testuser") == null) {
-            User testUser = new User("testuser", passwordEncoder.encode("password"), "testuser@gmail.com");
+            User testUser = new User("testuser2", passwordEncoder.encode("password"), "testuser2@gmail.com");
             userRepository.save(testUser);
-            System.out.println("Created test user: testuser");
+            System.out.println("Created test user: testuser2");
         }
         
         // Sample item initialization removed - no longer auto-creating items

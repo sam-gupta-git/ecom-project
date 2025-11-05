@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.List;
 
 import com.revature.training.ecommerce_project.services.UserService;
 import com.revature.training.ecommerce_project.model.User;
@@ -125,16 +124,6 @@ public class UserController {
             }
         } catch (Exception e) {
             return ResponseEntity.ok(Map.of("exists", false, "error", e.getMessage()));
-        }
-    }
-
-    @GetMapping("/all")
-    public ResponseEntity<List<User>> getAllUsers() {
-        try {
-            List<User> users = userService.getAllUsers();
-            return ResponseEntity.ok(users);
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(null);
         }
     }
 
