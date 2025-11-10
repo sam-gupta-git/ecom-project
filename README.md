@@ -1,4 +1,4 @@
-# 🛒 E-Commerce Backend API
+# 🛒 ByteMart - Backend API
 
 A robust, scalable e-commerce backend API built with Spring Boot and MySQL. This RESTful API provides comprehensive e-commerce functionality including user management, product catalog, shopping cart, wishlist, and order processing with secure authentication and data persistence.
 
